@@ -1,0 +1,23 @@
+<h1>ขายเลข</h1>
+<form method="POST">
+  ลูกค้า:
+  <select name="customer_id">
+    <% customers.forEach(c => { %>
+      <option value="<%= c.id %>"><%= c.name %></option>
+    <% }) %>
+  </select><br>
+
+  เลข: <input type="text" name="number"><br>
+  ประเภท:
+  <select name="type">
+    <option value="บน">บน</option>
+    <option value="ล่าง">ล่าง</option>
+    <option value="ตรง">ตรง</option>
+    <option value="โต๊ด">โต๊ด</option>
+    <option value="3ล่าง">3ล่าง</option>
+  </select><br>
+  ยอด: <input type="number" name="amount"><br>
+  <button type="submit">บันทึก</button>
+</form>
+
+<a href="/">กลับ Dashboard</a>
