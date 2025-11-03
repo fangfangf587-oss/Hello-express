@@ -1,0 +1,17 @@
+<h1>ตรวจผลรางวัล</h1>
+<table border="1">
+<tr>
+<th>ลูกค้า</th><th>เลข</th><th>ประเภท</th><th>ยอดขาย</th><th>รางวัล</th><th>รวมถูกรางวัล</th>
+</tr>
+<% data.forEach(d=>{ %>
+<tr>
+<td><%= d.name %></td>
+<td><%= d.number %></td>
+<td><%= d.type %></td>
+<td><%= d.amount %></td>
+<td><%= d.prize || 0 %></td>
+<td><%= d.total_win || 0 %></td>
+</tr>
+<% }) %>
+</table>
+<a href="/">กลับ Dashboard</a>
