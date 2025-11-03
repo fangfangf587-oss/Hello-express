@@ -6,63 +6,84 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ==== Setup ====
+// Setup
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ==== Database ====
+// Database
 const db = new sqlite3.Database('./data/sales.db', err => {
   if(err) console.log(err);
   else console.log('Database connected');
 });
 
-// ==== Routes ====
+// Routes
 
-// หน้า Dashboard
-app.get('/', (req, res) => {
-  db.all('SELECT * FROM customers', [], (err, customers) => {
-    if(err) console.log(err);
-    else res.render('dashboard', { customers });
+// Dashboard
+app.get('/', (req,res)=>{
+  db.all('SELECT * FROM customers',[],(err,customers)=>{
+    res.render('dashboard',{customers});
   });
 });
 
-// หน้าเพิ่ม/ดูลูกค้า
-app.get('/customers', (req, res) => {
-  db.all('SELECT * FROM customers', [], (err, customers) => {
-    if(err) console.log(err);
-    else res.render('customers', { customers });
+// Customers
+app.get('/customers',(req,res)=>{
+  db.all('SELECT * FROM customers',[],(err,customers)=>{
+    res.render('customers',{customers});
   });
 });
-
-app.post('/customers', (req, res) => {
+app.post('/customers',(req,res)=>{
   const name = req.body.name;
-  db.run('INSERT INTO customers(name) VALUES(?)', [name], err => {
-    if(err) console.log(err);
+  db.run('INSERT INTO customers(name) VALUES(?)',[name],err=>{
     res.redirect('/customers');
   });
 });
 
-// หน้าใส่เลขขาย
-app.get('/sell', (req,res)=>{
+// Sell
+app.get('/sell',(req,res)=>{
   db.all('SELECT * FROM customers',[],(err,customers)=>{
     res.render('sell',{customers});
   });
 });
-
 app.post('/sell',(req,res)=>{
   const { customer_id, number, type, amount } = req.body;
   const timestamp = new Date().toISOString();
   db.run(
     'INSERT INTO sales(customer_id, number, type, amount, timestamp) VALUES(?,?,?,?,?)',
-    [customer_id, number, type, amount, timestamp],
-    err => { if(err) console.log(err); }
+    [customer_id,number,type,amount,timestamp], err=>{if(err) console.log(err);}
   );
   res.redirect('/sell');
 });
 
-// เริ่มเซิร์ฟเวอร์
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+// Sale Detail
+app.get('/sale_detail',(req,res)=>{
+  db.all('SELECT sales.*, customers.name FROM sales INNER JOIN customers ON sales.customer_id=customers.id',[],(err,sales)=>{
+    res.render('sale_detail',{sales});
+  });
 });
+
+// Bill Detail (ตัวอย่าง)
+app.get('/bill_detail',(req,res)=>{
+  db.all('SELECT sales.*, customers.name FROM sales INNER JOIN customers ON sales.customer_id=customers.id',[],(err,bills)=>{
+    res.render('bill_detail',{bills});
+  });
+});
+
+// Set Limit
+app.get('/set_limit',(req,res)=>{ res.render('set_limit'); });
+app.post('/set_limit',(req,res)=>{ res.redirect('/set_limit'); });
+
+// Half Pay / Not Accept
+app.get('/half_pay',(req,res)=>{ res.render('half_pay'); });
+app.post('/half_pay',(req,res)=>{ res.redirect('/half_pay'); });
+
+// Record Result
+app.get('/record_result',(req,res)=>{ res.render('record_result'); });
+app.post('/record_result',(req,res)=>{ res.redirect('/record_result'); });
+
+// Check Result
+app.get('/check_result',(req,res)=>{ res.render('check_result'); });
+
+// Start server
+app.listen(PORT,()=>console.log(`Server running at http://localhost:${PORT}`));
