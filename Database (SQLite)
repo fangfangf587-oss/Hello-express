@@ -1,0 +1,20 @@
+CREATE TABLE customers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT
+);
+
+CREATE TABLE sales (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    customer_id INTEGER,
+    number TEXT,
+    type TEXT,
+    amount REAL,
+    timestamp TEXT
+);
+
+CREATE TABLE results (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    number TEXT,
+    type TEXT,
+    prize REAL
+);
