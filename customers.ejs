@@ -1,0 +1,13 @@
+<h1>ข้อมูลลูกค้า</h1>
+<form method="POST">
+  ชื่อลูกค้า: <input type="text" name="name">
+  <button type="submit">เพิ่ม</button>
+</form>
+
+<ul>
+  <% customers.forEach(c => { %>
+    <li><%= c.name %></li>
+  <% }) %>
+</ul>
+
+<a href="/">กลับ Dashboard</a>
