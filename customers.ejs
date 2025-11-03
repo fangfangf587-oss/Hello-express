@@ -1,11 +1,11 @@
-<h1>Dashboard</h1>
+<h1>ข้อมูลลูกค้า</h1>
+<form method="POST">
+  ชื่อลูกค้า: <input type="text" name="name">
+  <button type="submit">เพิ่ม</button>
+</form>
 <ul>
-  <li><a href="/sell">ขายเลข</a></li>
-  <li><a href="/customers">ข้อมูลลูกค้า</a></li>
-  <li><a href="/sale_detail">รายละเอียดการขาย</a></li>
-  <li><a href="/bill_detail">รายละเอียดบิล</a></li>
-  <li><a href="/set_limit">กำหนดยอดขาย</a></li>
-  <li><a href="/half_pay">จ่ายครึ่ง/ไม่รับ</a></li>
-  <li><a href="/record_result">บันทึกผลรางวัล</a></li>
-  <li><a href="/check_result">ตรวจผลรางวัล</a></li>
+  <% customers.forEach(c=>{ %>
+    <li><%= c.name %></li>
+  <% }) %>
 </ul>
+<a href="/">กลับ Dashboard</a>
